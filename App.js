@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { Text, View, Button, Image } from 'react-native';
 import { Estilo } from './src/estilos/Estilos'
+import Topo from './src/componentes/Topo'
 
 export default class App extends Component {
 	
@@ -24,23 +25,23 @@ export default class App extends Component {
 
 		if(escolhaUsuario == 'Papel'){
 			if(escolhaComputador == 'Pedra')
-				resultado = 'Usuario ganhou'
+				resultado = 'Você ganhou'
 			else if(escolhaComputador == 'Papel')
 				resultado = 'Empate'
 			else
-				resultado = 'Computador ganhou'
+				resultado = 'Você perdeu'
 		}else if(escolhaUsuario == 'Pedra'){
 			if(escolhaComputador == 'Pedra')
 				resultado = 'Empate'
 			else if(escolhaComputador == 'Papel')
-				resultado = 'Computador ganhou'
+				resultado = 'Você perdeu'
 			else
-				resultado = 'Usuario ganhou'
+				resultado = 'Você ganhou'
 		}else{
 			if(escolhaComputador == 'Pedra')
-				resultado = 'Computador ganhou'
+				resultado = 'Você perdeu'
 			else if(escolhaComputador == 'Papel')
-				resultado = 'Usuario ganhou'
+				resultado = 'Você ganhou'
 			else
 				resultado = 'Empate'
 		}
@@ -49,16 +50,67 @@ export default class App extends Component {
 
 
 	render() {
-		const { container, botao } = Estilo
+		const { container, botao, painelAcoes, palco, txtResultado } = Estilo
     	return (
-      		<View style={container}>
-        		<Text>Escolha do computador: {this.state.escolhaComputador}</Text>
-				<Text>Escolha do usuario: {this.state.escolhaUsuario}</Text>
-				<Text>Resultado: {this.state.resultado}</Text>
-				<Button title='Pedra' onPress={() => {this.jokenpo('Pedra')}}/>
-				<Button title='Papel' onPress={() => {this.jokenpo('Papel')}}/>
-				<Button  title='Tesoura' onPress={() => {this.jokenpo('Tesoura')}}/>
+			<View style={container}>
+				<Topo></Topo>
+				
+				<View style={painelAcoes}>
+					<View style={botao}>
+						<Button title='Pedra' onPress={() => {this.jokenpo('Pedra')}}/>
+					</View>
+					<View style={botao}>
+						<Button title='Papel' onPress={() => {this.jokenpo('Papel')}}/>
+					</View>
+					<View style={botao}>
+						<Button  title='Tesoura' onPress={() => {this.jokenpo('Tesoura')}}/>
+					</View>
+				</View>
+				
+				<View style={palco}>
+					<Text style={txtResultado}>{this.state.resultado}</Text>
+					<Icone escolha={this.state.escolhaUsuario} jogador='Usuario'/>
+					<Icone escolha={this.state.escolhaComputador} jogador='Computador'/>
+					
+
+					
+				</View>
+				
+        		
+				
 			</View>
     	);
   	}
+}
+
+class Icone extends Component {
+	render(){
+
+		const { icone, txtJogador } = Estilo
+
+		if(this.props.escolha == 'Pedra'){
+			return(
+				<View style={icone}>
+					<Text style={txtJogador}>{this.props.jogador}</Text>
+					<Image source={require('./images/pedra.png')}/>
+				</View>
+			)	
+		}else if(this.props.escolha == 'Papel'){
+			return(
+				<View style={icone}>
+					<Text style={txtJogador}>{this.props.jogador}</Text>
+					<Image source={require('./images/papel.png')}/>
+				</View>
+			)	
+		}else if(this.props.escolha){
+			return(
+				<View style={icone}>
+					<Text style={txtJogador}>{this.props.jogador}</Text>
+					<Image source={require('./images/tesoura.png')}/>
+				</View>
+			)
+		}else{
+			return false
+		}
+	}
 }
