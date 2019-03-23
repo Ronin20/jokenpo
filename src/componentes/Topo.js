@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 
+const imagem = require('../../images/jokenpo.png')
+
 export default Topo = () => {
     return(
         <View>
             <Image
-				source={require('../../images/jokenpo.png')}
+				source={imagem}
                 style={{width: '100%'}}
             />
         </View>
