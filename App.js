@@ -1,53 +1,116 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-
-class MeuComponente extends Component {
-    render(){
-      return(
-        <View>
-            <Text>{this.props.teste}</Text>
-      	</View>
-    )
-  }
-} 
-
-
-
-
+import { Text, View, Button, Image } from 'react-native';
+import { Estilo } from './src/estilos/Estilos'
+import Topo from './src/componentes/Topo'
 
 export default class App extends Component {
-	  
+	
 	constructor(props){
 		super(props)
 
 		this.state = {
-			texto: 'Texto teste'
+			escolhaUsuario: '',
+			escolhaComputador: '',
+			resultado: ''
 		}
+	}
+
+	opcoesComputador = ['Pedra', 'Papel', 'Tesoura']
+
+	jokenpo = (escolhaUsuario) => {
+		let choice = Math.floor(Math.random() * 3)
+		let escolhaComputador = this.opcoesComputador[choice]
 		
+		let resultado = ''
+
+		if(escolhaUsuario == 'Papel'){
+			if(escolhaComputador == 'Pedra')
+				resultado = 'Você ganhou'
+			else if(escolhaComputador == 'Papel')
+				resultado = 'Empate'
+			else
+				resultado = 'Você perdeu'
+		}else if(escolhaUsuario == 'Pedra'){
+			if(escolhaComputador == 'Pedra')
+				resultado = 'Empate'
+			else if(escolhaComputador == 'Papel')
+				resultado = 'Você perdeu'
+			else
+				resultado = 'Você ganhou'
+		}else{
+			if(escolhaComputador == 'Pedra')
+				resultado = 'Você perdeu'
+			else if(escolhaComputador == 'Papel')
+				resultado = 'Você ganhou'
+			else
+				resultado = 'Empate'
+		}
+		this.setState({escolhaUsuario, escolhaComputador, resultado}) //Só posso deixar apenas o nome da variavel pq o par chave valor tem o mesmo nome
 	}
-	
-	alteratTexto = () => {
-		this.setState( {texto: 'outra coisa'})
-	}
-	
+
+
 	render() {
+		const { container, botao, painelAcoes, palco, txtResultado } = Estilo
     	return (
-      		<View style={styles.container}>
-        		<MeuComponente teste={this.state.texto}></MeuComponente>
-				<Button
-					title='Botão'
-					onPress={() => this.alteratTexto()}
-				/>
+			<View style={container}>
+				<Topo></Topo>
+				
+				<View style={painelAcoes}>
+					<View style={botao}>
+						<Button title='Pedra' onPress={() => {this.jokenpo('Pedra')}}/>
+					</View>
+					<View style={botao}>
+						<Button title='Papel' onPress={() => {this.jokenpo('Papel')}}/>
+					</View>
+					<View style={botao}>
+						<Button  title='Tesoura' onPress={() => {this.jokenpo('Tesoura')}}/>
+					</View>
+				</View>
+				
+				<View style={palco}>
+					<Text style={txtResultado}>{this.state.resultado}</Text>
+					<Icone escolha={this.state.escolhaUsuario} jogador='Usuario'/>
+					<Icone escolha={this.state.escolhaComputador} jogador='Computador'/>
+					
+
+					
+				</View>
+				
+        		
+				
 			</View>
     	);
   	}
 }
 
-const styles = StyleSheet.create({
-  	container: {
-    	flex: 1,
-    	backgroundColor: '#fff',
-    	alignItems: 'center',
-    	justifyContent: 'center',
-  	},
-});
+class Icone extends Component {
+	render(){
+
+		const { icone, txtJogador } = Estilo
+
+		if(this.props.escolha == 'Pedra'){
+			return(
+				<View style={icone}>
+					<Text style={txtJogador}>{this.props.jogador}</Text>
+					<Image source={require('./images/pedra.png')}/>
+				</View>
+			)	
+		}else if(this.props.escolha == 'Papel'){
+			return(
+				<View style={icone}>
+					<Text style={txtJogador}>{this.props.jogador}</Text>
+					<Image source={require('./images/papel.png')}/>
+				</View>
+			)	
+		}else if(this.props.escolha){
+			return(
+				<View style={icone}>
+					<Text style={txtJogador}>{this.props.jogador}</Text>
+					<Image source={require('./images/tesoura.png')}/>
+				</View>
+			)
+		}else{
+			return false
+		}
+	}
+}
