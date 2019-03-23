@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Button, Image } from 'react-native';
 import { Estilo } from './src/estilos/Estilos'
 import Topo from './src/componentes/Topo'
+import Icone from './src/componentes/Icone';
 
 export default class App extends Component {
 	
@@ -53,7 +54,7 @@ export default class App extends Component {
 		const { container, botao, painelAcoes, palco, txtResultado } = Estilo
     	return (
 			<View style={container}>
-				<Topo></Topo>
+				<Topo/>
 				
 				<View style={painelAcoes}>
 					<View style={botao}>
@@ -71,46 +72,9 @@ export default class App extends Component {
 					<Text style={txtResultado}>{this.state.resultado}</Text>
 					<Icone escolha={this.state.escolhaUsuario} jogador='Usuario'/>
 					<Icone escolha={this.state.escolhaComputador} jogador='Computador'/>
-					
-
-					
 				</View>
-				
-        		
-				
 			</View>
     	);
   	}
 }
 
-class Icone extends Component {
-	render(){
-
-		const { icone, txtJogador } = Estilo
-
-		if(this.props.escolha == 'Pedra'){
-			return(
-				<View style={icone}>
-					<Text style={txtJogador}>{this.props.jogador}</Text>
-					<Image source={require('./images/pedra.png')}/>
-				</View>
-			)	
-		}else if(this.props.escolha == 'Papel'){
-			return(
-				<View style={icone}>
-					<Text style={txtJogador}>{this.props.jogador}</Text>
-					<Image source={require('./images/papel.png')}/>
-				</View>
-			)	
-		}else if(this.props.escolha){
-			return(
-				<View style={icone}>
-					<Text style={txtJogador}>{this.props.jogador}</Text>
-					<Image source={require('./images/tesoura.png')}/>
-				</View>
-			)
-		}else{
-			return false
-		}
-	}
-}
